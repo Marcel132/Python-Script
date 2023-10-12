@@ -1,59 +1,71 @@
 import tkinter as tk
+import os
 
-# Funkcja obliczająca normę
-def main_program(number_people_entry, efficiency_entry, assumed_standard_entry, result_working_standard_label, comment_label):
-    try:
-        number_people = int(number_people_entry.get())
-        efficiency = float(efficiency_entry.get())
-        assumed_standard = int(assumed_standard_entry.get())
-        working_standard = efficiency
-        calc_working_standard = assumed_standard - working_standard
+user_folder_path = "users"
 
-        # Logika dotycząca normy pracy
-        if calc_working_standard < 0:
-            result_working_standard_label.config(text=f"Obliczona norma: {working_standard}")
-            comment_label.config(text=f"Norma wynosi: {calc_working_standard}. Aby utrzymać normę, należy zwiększyć wydajność pracy!")
-        elif calc_working_standard == 0:
-            result_working_standard_label.config(text=f"Obliczona norma: {working_standard}")
-            comment_label.config(text=f"Norma wynosi {calc_working_standard}. Aby zachować normę, należy utrzymać lub przyspieszyć wydajność pracy!")
-        elif calc_working_standard > 0:
-            result_working_standard_label.config(text=f"Obliczona norma: {working_standard}")
-            comment_label.config(text=f"Norma wynosi {calc_working_standard}. Aby zachować normę, należy utrzymać wydajność pracy!")
-    except ValueError:
-        result_working_standard_label.config(text="Obliczona norma: !Błąd! Popraw dane.")
+def create_user_interface():
+    clear_screen()
+    add_user_label = tk.Label(root, text="Podaj nazwę użytkownika:")
+    username_entry = tk.Entry(root)
+    submit_add_user_button = tk.Button(root, text="Dodaj", command=lambda: create_user(username_entry.get()))
 
-# Funkcja do dodawania nowej taśmy
-def add_new_line():
-    new_frame = tk.Frame(root)
-    new_frame.pack(padx=10, side="left")
+    add_user_label.pack()
+    username_entry.pack()
+    submit_add_user_button.pack()
 
-    number_people_label = tk.Label(new_frame, text="Liczba osób: ")
-    number_people_label.pack()
-    number_people_entry = tk.Entry(new_frame)
-    number_people_entry.pack()
+def create_user(username):
+    if not username:
+        return 
 
-    efficiency_label = tk.Label(new_frame, text="Wydajność pracy: ")
-    efficiency_label.pack()
-    efficiency_entry = tk.Entry(new_frame)
-    efficiency_entry.pack()
+    if username_exists(username):
+        add_user_comment_label.config(text=f"Użytkownik {username} już istnieje")
+    else:
+        create_user_folder(username)
+        add_user_comment_label.config(text=f"Użytkownik {username} został dodany")
 
-    assumed_standard_label = tk.Label(new_frame, text="Wydajność zakładana: ")
-    assumed_standard_label.pack()
-    assumed_standard_entry = tk.Entry(new_frame)
-    assumed_standard_entry.pack()
+def username_exists(username):
+    files = os.listdir(user_folder_path)
+    return username in files
 
-    calc_button = tk.Button(new_frame, text="Zachowaj", command=lambda: main_program(number_people_entry, efficiency_entry, assumed_standard_entry, result_working_standard_label, comment_label))
-    calc_button.pack()
+def create_user_folder(username):
+    user_folder = os.path.join(user_folder_path, username)
+    os.mkdir(user_folder)
 
-    result_working_standard_label = tk.Label(new_frame, text="")
-    result_working_standard_label.pack()
-    comment_label = tk.Label(new_frame, text="")
-    comment_label.pack()
+def clear_screen():
+    for widget in root.winfo_children():
+        widget.destroy()
+
+def display_user_folders():
+    clear_screen()
+    user_label = tk.Label(root, text="Użytkownicy:")
+    user_label.pack()
+
+    for folder in os.listdir(user_folder_path):
+        user_button = tk.Button(root, text=folder, command=lambda folder=folder: read_user_folder(folder))
+        user_button.pack()
+
+def read_user_folder(folder_name):
+    clear_screen()
+    folder_name = os.path.join(user_folder_path, folder_name)
+    if os.path.exists(folder_name):
+        with open(folder_name, 'r') as folder:
+            data = folder.read()
+            label_comment = tk.Label(root, text=data)
+            label_comment.pack()
+    else:
+        label_comment = tk.Label(root, text=f"Plik {folder_name} nie istnieje")
+        label_comment.pack()
 
 root = tk.Tk()
 root.title("Norma pracy")
+root.geometry("800x600")
 
-add_new_line_button = tk.Button(root, text="Dodaj nową linie", command=add_new_line)
-add_new_line_button.pack()
+display_user_folders()
+
+add_new_user_button = tk.Button(root, text="Dodaj użytkownika", command=create_user_interface)
+add_new_user_button.pack()
+
+add_user_comment_label = tk.Label(root, text="")
+add_user_comment_label.pack()
 
 root.mainloop()
