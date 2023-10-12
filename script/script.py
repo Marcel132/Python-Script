@@ -1,13 +1,14 @@
 import tkinter as tk
 import os
 
-user_folder_path = "users"
+user_folder_path = 'users'
+folders_path = 'users/'
 
 def create_user_interface():
     clear_screen()
-    add_user_label = tk.Label(root, text="Podaj nazwę użytkownika:")
-    username_entry = tk.Entry(root)
-    submit_add_user_button = tk.Button(root, text="Dodaj", command=lambda: create_user(username_entry.get()))
+    add_user_label = tk.Label(main_box, text="Podaj nazwę użytkownika:")
+    username_entry = tk.Entry(main_box)
+    submit_add_user_button = tk.Button(main_box, text="Dodaj", command=lambda: create_user(username_entry.get()))
 
     add_user_label.pack()
     username_entry.pack()
@@ -32,40 +33,54 @@ def create_user_folder(username):
     os.mkdir(user_folder)
 
 def clear_screen():
-    for widget in root.winfo_children():
+    for widget in main_box.winfo_children():
         widget.destroy()
 
-def display_user_folders():
+def display_users_folder():
     clear_screen()
-    user_label = tk.Label(root, text="Użytkownicy:")
+    user_label = tk.Label(main_box, text="Użytkownicy:")
     user_label.pack()
 
     for folder in os.listdir(user_folder_path):
-        user_button = tk.Button(root, text=folder, command=lambda folder=folder: read_user_folder(folder))
+        user_button = tk.Button(main_box, text=folder, command=lambda folder=folder: display_user_data(folder), borderwidth=2, relief="ridge")
         user_button.pack()
 
-def read_user_folder(folder_name):
+def display_user_data(username):
+    # Clear screen after open account folder
     clear_screen()
-    folder_name = os.path.join(user_folder_path, folder_name)
-    if os.path.exists(folder_name):
-        with open(folder_name, 'r') as folder:
-            data = folder.read()
-            label_comment = tk.Label(root, text=data)
-            label_comment.pack()
-    else:
-        label_comment = tk.Label(root, text=f"Plik {folder_name} nie istnieje")
-        label_comment.pack()
 
+    user_label = tk.Label(main_box, text=f"Profil użytkownika: {username}")
+    user_label.pack()
+
+    dates = os.listdir(os.path.join(user_folder_path, username))
+    for date in dates:
+        date_button = tk.Button(main_box, text=date, command=lambda date=date: display_date_data(username, date), borderwidth=2, relief="ridge")
+        date_button.pack(side="top-left")
+
+def display_date_data(username, date):
+    date_label = tk.Label(main_box, text=f"Data: {date}")
+    date_label.pack()
+
+    files = os.listdir(os.path.join(user_folder_path, username, date))
+    for file in files:
+        file_label = tk.Label(main_box, text=file)
+        file_label.pack()
+
+# Main interface - users account
 root = tk.Tk()
 root.title("Norma pracy")
-root.geometry("800x600")
+root.minsize(root.winfo_screenwidth(), root.winfo_screenheight())
+root.maxsize(root.winfo_screenwidth(), root.winfo_screenheight())
 
-display_user_folders()
+main_box = tk.Frame(root)
+main_box.pack(fill="both", expand=True)
 
-add_new_user_button = tk.Button(root, text="Dodaj użytkownika", command=create_user_interface)
+display_users_folder()
+
+add_new_user_button = tk.Button(main_box, text="Dodaj użytkownika", command=create_user_interface)
 add_new_user_button.pack()
 
-add_user_comment_label = tk.Label(root, text="")
+add_user_comment_label = tk.Label(main_box, text="")
 add_user_comment_label.pack()
 
 root.mainloop()
