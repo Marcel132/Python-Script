@@ -1,6 +1,11 @@
 import tkinter as tk
 import os
 
+# Styles
+
+custom_font = ('Arial', 17)
+
+# All necessary paths 
 user_folder_path = 'users'
 folders_path = 'users/'
 
@@ -9,24 +14,25 @@ def create_user_interface():
     add_user_label = tk.Label(main_box, text="Podaj nazwę użytkownika:")
     username_entry = tk.Entry(main_box)
     submit_add_user_button = tk.Button(main_box, text="Dodaj", command=lambda: create_user(username_entry.get()))
+    add_user_comment_label = tk.Label(main_box, text="", font=custom_font)
 
     add_user_label.pack()
     username_entry.pack()
     submit_add_user_button.pack()
+    add_user_comment_label.pack()
+    def create_user(username):
+        if not username:
+            return 
 
-def create_user(username):
-    if not username:
-        return 
-
-    if username_exists(username):
-        add_user_comment_label.config(text=f"Użytkownik {username} już istnieje")
-    else:
-        create_user_folder(username)
-        add_user_comment_label.config(text=f"Użytkownik {username} został dodany")
-
-def username_exists(username):
-    files = os.listdir(user_folder_path)
-    return username in files
+        if username_exists(username):
+            add_user_comment_label.config(text=f"Użytkownik {username} już istnieje")
+        else:
+            create_user_folder(username)
+            add_user_comment_label.config(text=f"Użytkownik {username} został dodany")
+    def username_exists(username):
+        files = os.listdir(user_folder_path)
+        return username in files
+    
 
 def create_user_folder(username):
     user_folder = os.path.join(user_folder_path, username)
@@ -69,6 +75,8 @@ def display_date_data(username, date):
 # Main interface - users account
 root = tk.Tk()
 root.title("Norma pracy")
+
+# Root's styles
 root.minsize(root.winfo_screenwidth(), root.winfo_screenheight())
 root.maxsize(root.winfo_screenwidth(), root.winfo_screenheight())
 

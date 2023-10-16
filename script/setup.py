@@ -2,7 +2,7 @@ from cx_Freeze import setup, Executable
 
 setup (
   name = 'Manager',
-  version = '~~',
-  description = "Dodanie możlwości utworzenia kont użytkownika",
+  version = '3.5.1',
+  description = "Zmiana styli",
   executables = [Executable('script.py')]
 )
