@@ -2,7 +2,8 @@ import tkinter as tk
 import os
 
 # Styles
-custom_font = ('Arial', 17)
+font_main_screen = ('Arial', 16)
+font_create_user = ('Arial', 16)
 
 # All necessary paths 
 user_folder_path = 'users'
@@ -16,26 +17,31 @@ def clear_screen():
 # This function create users accounts
 def create_user_interface():
     clear_screen()
-    # Get username from user and 
-    add_user_label = tk.Label(main_box, text="Podaj nazwę użytkownika:", font=custom_font)
-    username_entry = tk.Entry(main_box, font=custom_font)
-    submit_add_user_button = tk.Button(main_box, text="Dodaj", command=lambda: create_user(username_entry.get()), font=custom_font)
-    add_user_comment_label = tk.Label(main_box, text="", font=custom_font)
 
+    add_user_label = tk.Label(main_box, text="Podaj nazwę użytkownika:", font=font_create_user)
     add_user_label.pack()
+
+    username_entry = tk.Entry(main_box, font=font_create_user)
     username_entry.pack()
+
+    submit_add_user_button = tk.Button(main_box, text="Dodaj", command=lambda: create_user(username_entry.get()), font=font_create_user)
     submit_add_user_button.pack()
+
+    add_user_comment_label = tk.Label(main_box, text="", font=font_create_user)
     add_user_comment_label.pack()
-    
+
     # Function that checks if user doesn't filled input, username doesn't exists or account has the same name
     def create_user(username):
         if not username:
-            add_user_comment_label.config(text="Błąd! Wpisz poprawnie dane")
+            add_user_comment_label.config(text="Błąd! Wpisz poprawnie dane", font=font_create_user)
+
         if username_exists(username):
-            add_user_comment_label.config(text=f"Użytkownik {username} już istnieje")
+            add_user_comment_label.config(text=f"Użytkownik {username} już istnieje", font=font_create_user)
+
         else:
             create_user_folder(username)
-            add_user_comment_label.config(text=f"Użytkownik {username} został dodany")
+            add_user_comment_label.config(text=f"Użytkownik {username} został dodany", font=font_create_user)
+    
     def username_exists(username):
         files = os.listdir(user_folder_path)
         return username in files
@@ -48,11 +54,11 @@ def create_user_folder(username):
 # Show accounts
 def display_users_folder():
     clear_screen()
-    user_label = tk.Label(main_box, text="Użytkownicy:")
+    user_label = tk.Label(main_box, text="Użytkownicy:", font=font_main_screen)
     user_label.pack()
 
     for folder in os.listdir(user_folder_path):
-        user_button = tk.Button(main_box, text=folder, command=lambda folder=folder: display_user_data(folder), borderwidth=2, relief="ridge")
+        user_button = tk.Button(main_box, text=folder, command=lambda folder=folder: display_user_data(folder), borderwidth=2, relief="ridge", font=font_main_screen)
         user_button.pack()
 
 # Show accounts folder
@@ -90,10 +96,10 @@ main_box.pack(fill="both", expand=True)
 
 display_users_folder()
 
-add_new_user_button = tk.Button(main_box, text="Dodaj użytkownika", command=create_user_interface)
+add_new_user_button = tk.Button(main_box, text="Dodaj użytkownika", command=create_user_interface, font=font_main_screen)
 add_new_user_button.pack()
 
-add_user_comment_label = tk.Label(main_box, text="")
+add_user_comment_label = tk.Label(main_box, text="", font=font_main_screen)
 add_user_comment_label.pack()
 
 root.mainloop()
