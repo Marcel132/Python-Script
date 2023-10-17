@@ -15,6 +15,7 @@ def clear_screen():
     for widget in main_box.winfo_children():
         widget.destroy()
 
+# This function can return user to main screen 
 def return_to_main_site():
     clear_screen()
     main_screen()
@@ -73,24 +74,40 @@ def display_users_folder():
     # Show accounts folder
     def display_user_data(username):
         clear_screen()
+    
+        
+
+        return_button = tk.Button(main_box, text="Powrót na stronę", command=return_to_main_site, font=font_main)
+        return_button.pack(side="top", anchor="ne", padx=6, pady=2)
 
         user_label = tk.Label(main_box, text=f"Profil użytkownika: {username}")
-        user_label.pack()
+        user_label.pack(side="top")
 
         dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
             date_button = tk.Button(main_box, text=date, command=lambda date=date: display_date_data(username, date), borderwidth=2, relief="ridge")
-            date_button.pack(side="left")
+            date_button.pack(side="left", anchor="nw")
 
-    # Show account data
-    def display_date_data(username, date):
-        date_label = tk.Label(main_box, text=f"Data: {date}")
-        date_label.pack()
+        # Show account data
+        def display_date_data(username, date):
+            date_label = tk.Label(main_box, text=f"Data: {date}")
+            date_label.pack()
 
-        files = os.listdir(os.path.join(user_folder_path, username, date))
-        for file in files:
-            file_label = tk.Label(main_box, text=file)
-            file_label.pack()
+            files = os.listdir(os.path.join(user_folder_path, username, date))
+            for file in files:
+                file_label = tk.Label(main_box, text=file)
+                file_label.pack()
+
+# Main screen
+def main_screen():
+    display_users_folder()
+
+    add_new_user_button = tk.Button(main_box, text="Dodaj użytkownika", command=create_user_interface, font=font_main)
+    add_new_user_button.pack()
+
+    add_user_comment_label = tk.Label(main_box, text="", font=font_main)
+    add_user_comment_label.pack()
+
 
 # Main interface
 root = tk.Tk()
@@ -102,15 +119,6 @@ root.maxsize(root.winfo_screenwidth(), root.winfo_screenheight())
 
 main_box = tk.Frame(root)
 main_box.pack(fill="both", expand=True)
-
-def main_screen():
-    display_users_folder()
-
-    add_new_user_button = tk.Button(main_box, text="Dodaj użytkownika", command=create_user_interface, font=font_main)
-    add_new_user_button.pack()
-
-    add_user_comment_label = tk.Label(main_box, text="", font=font_main)
-    add_user_comment_label.pack()
 
 main_screen()
 root.mainloop()
