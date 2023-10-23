@@ -9,30 +9,6 @@ font_small = ('Arial', 13)
 main_frame_background = "#f2f2f2"
 button_background = ""
 button_cursor = "hand2"
-padding_x = 10
-padding_y = 10
-
-
-# .UI/UX-1-hex { color: #A4A5A6; }
-# .UI/UX-2-hex { color: #A68256; }
-# .UI/UX-3-hex { color: #F2F2F2; }
-# .UI/UX-4-hex { color: #262626; }
-# .UI/UX-5-hex { color: #0D0D0D; }
-
-# /* Color Theme Swatches in RGBA */
-# .UI/UX-1-rgba { color: rgba(164, 164, 165, 1); }
-# .UI/UX-2-rgba { color: rgba(165, 129, 86, 1); }
-# .UI/UX-3-rgba { color: rgba(242, 242, 242, 1); }
-# .UI/UX-4-rgba { color: rgba(38, 38, 38, 1); }
-# .UI/UX-5-rgba { color: rgba(12, 12, 12, 1); }
-
-# /* Color Theme Swatches in HSLA */
-# .UI/UX-1-hsla { color: hsla(224, 0, 64, 1); }
-# .UI/UX-2-hsla { color: hsla(33, 31, 49, 1); }
-# .UI/UX-3-hsla { color: hsla(0, 0, 95, 1); }
-# .UI/UX-4-hsla { color: hsla(0, 0, 15, 1); }
-# .UI/UX-5-hsla { color: hsla(0, 0, 5, 1); }
-
 
 # All necessary paths 
 user_folder_path = 'users'
@@ -61,7 +37,7 @@ def create_user_interface():
 
     return_button = tk.Button(main_frame, text="Powrót na stronę", command=return_to_main_site,
     font=font_small, cursor=button_cursor)
-    return_button.pack(side="top", anchor="ne", padx=padding_x, pady=padding_y)
+    return_button.pack(side="top", anchor="ne", padx=10, pady=10)
 
     add_user_label = tk.Label(main_frame, text="Podaj nazwę użytkownika:", 
     font=font_main)
@@ -113,7 +89,7 @@ def display_users_folder():
 
     for folder in os.listdir(user_folder_path):
         user_button = tk.Button(main_frame, text=folder, command=lambda folder=folder: display_user_data(folder), 
-        borderwidth=0, font=font_main, cursor=button_cursor, padx=padding_x, pady=padding_y)
+        borderwidth=0, font=font_main, cursor=button_cursor, padx=10, pady=10)
         user_button.pack()
 
     # Show accounts folder
@@ -128,6 +104,10 @@ def display_users_folder():
         borderwidth=2, relief="ridge")
         left_section_frame.pack(side="left", anchor="nw")
 
+        content_section_frame = tk.Frame(main_frame,
+        borderwidth=2, relief="ridge")
+        content_section_frame.pack()
+
         user_label = tk.Label(top_section_frame, text=f"Profil użytkownika: {username}", 
         font=font_small)
         user_label.pack(side="left", padx=(2, 300), pady=2)
@@ -138,7 +118,7 @@ def display_users_folder():
 
         dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
-            date_button = tk.Button(left_section_frame, text=date, command=lambda date=date: display_date_data(username, date), 
+            date_button = tk.Button(left_section_frame, text=date, command=lambda: main_program(), 
             font=font_small, cursor=button_cursor)
             date_button.pack(padx=10, pady=2)
 
@@ -158,14 +138,12 @@ def display_users_folder():
             
 
         # Show account data
-        def display_date_data(username, date):
-            date_label = tk.Label(main_frame, text=f"Data: {date}")
-            date_label.pack()
+        def main_program():
+            comment_label = tk.Label(content_section_frame, text="Otworzono folder: ",
+            font=font_small)
+            comment_label.pack()
 
-            files = os.listdir(os.path.join(user_folder_path, username, date))
-            for file in files:
-                file_label = tk.Label(main_frame, text=file)
-                file_label.pack()
+                
 
 # Main screen
 def main_screen():
@@ -174,11 +152,6 @@ def main_screen():
     add_new_user_button = tk.Button(main_frame, text="Dodaj użytkownika", command=create_user_interface, 
     font=font_main, cursor=button_cursor)
     add_new_user_button.pack()
-
-    # add_user_comment_label = tk.Label(main_frame, text="", 
-    # font=font_main)
-    # add_user_comment_label.pack()
-
 
 # Main interface
 root = tk.Tk()
