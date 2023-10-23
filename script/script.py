@@ -114,20 +114,17 @@ def display_users_folder():
     def display_user_data(username):
         clear_screen()
     
-        top_section_frame = tk.Frame(main_frame)
+        top_section_frame = tk.Frame(main_frame,
+        borderwidth=2, relief="ridge", width=500, height=200)
         top_section_frame.pack()
-        top_left = tk.Frame(top_section_frame)
-        top_left.pack()
-        top_right = tk.Frame(top_section_frame)
-        top_right.pack()
 
-        user_label = tk.Label(top_left, text=f"Profil użytkownika: {username}", 
+        user_label = tk.Label(top_section_frame, text=f"Profil użytkownika: {username}", 
         font=font_main)
-        user_label.pack( padx=4, pady=4)
+        user_label.pack(side="left", padx=(2, 300), pady=2)
 
-        return_button = tk.Button(top_right, text="Powrót na stronę", command=return_to_main_site, 
+        return_button = tk.Button(top_section_frame, text="Powrót na stronę", command=return_to_main_site, 
         font=font_main, cursor=button_cursor)
-        return_button.pack(padx=4, pady=4)
+        return_button.pack(side="left", padx=(300, 2), pady=2)
 
         dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
@@ -162,9 +159,11 @@ def main_screen():
 root = tk.Tk()
 root.title("Norma pracy")
 
-# Root's styles
-root.minsize(root.winfo_screenwidth(), root.winfo_screenheight())
-root.maxsize(root.winfo_screenwidth(), root.winfo_screenheight())
+# # Root's styles
+root.geometry("1400x900")
+
+# root.minsize(root.winfo_screenwidth(), root.winfo_screenheight())
+# root.maxsize(root.winfo_screenwidth(), root.winfo_screenheight())
 
 main_frame = tk.Frame(root, bg=main_frame_background)
 main_frame.pack(fill="both", expand=True)
