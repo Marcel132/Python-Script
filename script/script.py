@@ -35,8 +35,7 @@ padding_y = 10
 
 
 # All necessary paths 
-# user_folder_path = 'users'
-# folders_path = f'users/{username}'
+user_folder_path = 'users'
 
 
 # This function can clear all content on screen
@@ -96,12 +95,12 @@ def create_user_interface():
             font=font_small)
     
     def username_exists(username):
-        files = os.listdir('users')
+        files = os.listdir(user_folder_path)
         return username in files
     
 # Create account folder 
 def create_user_folder(username):
-    user_folder = os.path.join('users', username)
+    user_folder = os.path.join(user_folder_path, username)
     os.mkdir(user_folder)
 
 # Show accounts
@@ -112,7 +111,7 @@ def display_users_folder():
     font=font_main)
     user_label.pack()
 
-    for folder in os.listdir('users'):
+    for folder in os.listdir(user_folder_path):
         user_button = tk.Button(main_frame, text=folder, command=lambda folder=folder: display_user_data(folder), 
         borderwidth=0, font=font_main, cursor=button_cursor, padx=padding_x, pady=padding_y)
         user_button.pack()
@@ -137,7 +136,7 @@ def display_users_folder():
         font=font_small, cursor=button_cursor)
         return_button.pack(side="left", padx=(300, 2), pady=2)
 
-        dates = os.listdir(os.path.join('users', username))
+        dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
             date_button = tk.Button(left_section_frame, text=date, command=lambda date=date: display_date_data(username, date), 
             font=font_small, cursor=button_cursor)
@@ -149,16 +148,21 @@ def display_users_folder():
 
         # create folder that name include current date 
         def create_folder(username):
-            add_folder = os.path.join('users/' + username, str(date.today()))
+            current_date = datetime.now().date()
+            if not os.path.exists(user_folder_path):
+                os.mkdir(user_folder_path)
+            add_folder = os.path.join(user_folder_path, username, str(current_date))
             os.mkdir(add_folder)
-            display_users_folder()
+            clear_screen()
+            display_user_data(username)
+            
 
         # Show account data
         def display_date_data(username, date):
             date_label = tk.Label(main_frame, text=f"Data: {date}")
             date_label.pack()
 
-            files = os.listdir(os.path.join('users/', username, date))
+            files = os.listdir(os.path.join(user_folder_path, username, date))
             for file in files:
                 file_label = tk.Label(main_frame, text=file)
                 file_label.pack()
