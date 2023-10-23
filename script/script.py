@@ -1,9 +1,11 @@
 import tkinter as tk
 import os
+from datetime import datetime
 
 # Styles
 # main styles
 font_main = ('Arial', 16)
+font_small = ('Arial', 13)
 main_frame_background = "#f2f2f2"
 button_background = ""
 button_cursor = "hand2"
@@ -33,8 +35,8 @@ padding_y = 10
 
 
 # All necessary paths 
-user_folder_path = 'users'
-folders_path = 'users/'
+# user_folder_path = 'users'
+# folders_path = f'users/{username}'
 
 
 # This function can clear all content on screen
@@ -47,6 +49,11 @@ def return_to_main_site():
     clear_screen()
     main_screen()
 
+# Change value to percentage
+def change_pixels_to_percents(number):
+    percents = number * 100
+    return percents
+
 
 
 # This function create users accounts
@@ -54,7 +61,7 @@ def create_user_interface():
     clear_screen()
 
     return_button = tk.Button(main_frame, text="Powrót na stronę", command=return_to_main_site,
-    font=font_main, cursor=button_cursor)
+    font=font_small, cursor=button_cursor)
     return_button.pack(side="top", anchor="ne", padx=padding_x, pady=padding_y)
 
     add_user_label = tk.Label(main_frame, text="Podaj nazwę użytkownika:", 
@@ -66,35 +73,35 @@ def create_user_interface():
     username_entry.pack()
 
     submit_add_user_button = tk.Button(main_frame, text="Dodaj", command=lambda: create_user(username_entry.get()), 
-    font=font_main, cursor=button_cursor)
+    font=font_small, cursor=button_cursor)
     submit_add_user_button.pack()
 
     add_user_comment_label = tk.Label(main_frame, text="", 
-    font=font_main)
+    font=font_small)
     add_user_comment_label.pack()
 
     # Function that checks if user doesn't filled input, username doesn't exists or account has the same name
     def create_user(username):
         if not username:
             add_user_comment_label.config(text="Błąd! Wpisz poprawnie dane", 
-            font=font_main)
+            font=font_small)
 
         if username_exists(username):
             add_user_comment_label.config(text=f"Użytkownik {username} już istnieje", 
-            font=font_main)
+            font=font_small)
 
         else:
             create_user_folder(username)
             add_user_comment_label.config(text=f"Użytkownik {username} został dodany", 
-            font=font_main)
+            font=font_small)
     
     def username_exists(username):
-        files = os.listdir(user_folder_path)
+        files = os.listdir('users')
         return username in files
     
 # Create account folder 
 def create_user_folder(username):
-    user_folder = os.path.join(user_folder_path, username)
+    user_folder = os.path.join('users', username)
     os.mkdir(user_folder)
 
 # Show accounts
@@ -105,7 +112,7 @@ def display_users_folder():
     font=font_main)
     user_label.pack()
 
-    for folder in os.listdir(user_folder_path):
+    for folder in os.listdir('users'):
         user_button = tk.Button(main_frame, text=folder, command=lambda folder=folder: display_user_data(folder), 
         borderwidth=0, font=font_main, cursor=button_cursor, padx=padding_x, pady=padding_y)
         user_button.pack()
@@ -115,29 +122,43 @@ def display_users_folder():
         clear_screen()
     
         top_section_frame = tk.Frame(main_frame,
-        borderwidth=2, relief="ridge", width=500, height=200)
+        borderwidth=2, relief="ridge")
         top_section_frame.pack()
 
+        left_section_frame = tk.Frame(main_frame,
+        borderwidth=2, relief="ridge")
+        left_section_frame.pack(side="left", anchor="nw")
+
         user_label = tk.Label(top_section_frame, text=f"Profil użytkownika: {username}", 
-        font=font_main)
+        font=font_small)
         user_label.pack(side="left", padx=(2, 300), pady=2)
 
         return_button = tk.Button(top_section_frame, text="Powrót na stronę", command=return_to_main_site, 
-        font=font_main, cursor=button_cursor)
+        font=font_small, cursor=button_cursor)
         return_button.pack(side="left", padx=(300, 2), pady=2)
 
-        dates = os.listdir(os.path.join(user_folder_path, username))
+        dates = os.listdir(os.path.join('users', username))
         for date in dates:
-            date_button = tk.Button(main_frame, text=date, command=lambda date=date: display_date_data(username, date), 
-            cursor=button_cursor)
-            date_button.pack(side="left", anchor="nw")
+            date_button = tk.Button(left_section_frame, text=date, command=lambda date=date: display_date_data(username, date), 
+            font=font_small, cursor=button_cursor)
+            date_button.pack(padx=10, pady=2)
+
+        add_date_folder_button = tk.Button(left_section_frame, text="+", command=lambda username=username: create_folder(username),
+        font=font_small)
+        add_date_folder_button.pack()
+
+        # create folder that name include current date 
+        def create_folder(username):
+            add_folder = os.path.join('users/' + username, str(date.today()))
+            os.mkdir(add_folder)
+            display_users_folder()
 
         # Show account data
         def display_date_data(username, date):
             date_label = tk.Label(main_frame, text=f"Data: {date}")
             date_label.pack()
 
-            files = os.listdir(os.path.join(user_folder_path, username, date))
+            files = os.listdir(os.path.join('users/', username, date))
             for file in files:
                 file_label = tk.Label(main_frame, text=file)
                 file_label.pack()
@@ -159,11 +180,8 @@ def main_screen():
 root = tk.Tk()
 root.title("Norma pracy")
 
-# # Root's styles
-root.geometry("1400x900")
-
-# root.minsize(root.winfo_screenwidth(), root.winfo_screenheight())
-# root.maxsize(root.winfo_screenwidth(), root.winfo_screenheight())
+# Set default screen size
+root.geometry(f"{change_pixels_to_percents(100)}x{change_pixels_to_percents(100)}")
 
 main_frame = tk.Frame(root, bg=main_frame_background)
 main_frame.pack(fill="both", expand=True)
