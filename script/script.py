@@ -118,7 +118,7 @@ def display_users_folder():
 
         dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
-            date_button = tk.Button(left_section_frame, text=date, command=lambda: main_program(), 
+            date_button = tk.Button(left_section_frame, text=date, command=lambda: main_program(username, date), 
             font=font_small, cursor=button_cursor)
             date_button.pack(padx=10, pady=2)
 
@@ -138,10 +138,26 @@ def display_users_folder():
             
 
         # Show account data
-        def main_program():
-            comment_label = tk.Label(content_section_frame, text="Otworzono folder: ",
-            font=font_small)
-            comment_label.pack()
+        def main_program(username, date):
+            file_name = os.path.join(user_folder_path, username, date, f"{date}.txt")
+
+
+
+            # comment_label = tk.Label(content_section_frame, text="Otworzono folder: ",
+            # font=font_small)
+            # comment_label.pack()
+
+            # add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name),
+            # font=font_small)
+            # add_file_button.pack()
+
+           
+           
+           
+            # def create_file(file_name):
+            #     with open(file_name, 'w') as file:
+            #         file.write("To jest zawartość pliku.")
+        
 
                 
 
