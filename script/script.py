@@ -143,20 +143,20 @@ def display_users_folder():
 
 
 
-            # comment_label = tk.Label(content_section_frame, text="Otworzono folder: ",
-            # font=font_small)
-            # comment_label.pack()
+            comment_label = tk.Label(content_section_frame, text="Otworzono folder: ",
+            font=font_small)
+            comment_label.pack()
 
-            # add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name),
-            # font=font_small)
-            # add_file_button.pack()
+            add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name),
+            font=font_small)
+            add_file_button.pack()
 
            
            
            
-            # def create_file(file_name):
-            #     with open(file_name, 'w') as file:
-            #         file.write("To jest zawartość pliku.")
+            def create_file(file_name):
+                with open(file_name, 'w') as file:
+                    file.write("To jest zawartość pliku.")
         
 
                 
