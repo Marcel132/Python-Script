@@ -147,16 +147,16 @@ def display_users_folder():
             font=font_small)
             comment_label.pack()
 
-            add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name),
+            add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name, 'Coś tam Coś tam'),
             font=font_small)
             add_file_button.pack()
 
            
            
            
-            def create_file(file_name):
-                with open(file_name, 'w') as file:
-                    file.write("To jest zawartość pliku.")
+            def create_file(file_name, content):
+                with open(file_name, 'w', encoding='utf-8') as file:
+                    file.write(content)
         
 
                 
