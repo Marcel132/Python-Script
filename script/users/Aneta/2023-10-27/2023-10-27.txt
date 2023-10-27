@@ -1,0 +1,5 @@
+Numer linii: <bound method Entry.get of <tkinter.Entry object .!frame.!frame3.!frame2.!entry>> 
+Nazwa artykułu: <bound method Entry.get of <tkinter.Entry object .!frame.!frame3.!frame2.!entry2>> 
+Numer artykułu: {number_article_entry} 
+Ilość sztuk na palecie: .!frame.!frame3.!frame2.!entry4
+Norma.!frame.!frame3.!frame2.!entry5

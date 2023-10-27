@@ -118,9 +118,9 @@ def display_users_folder():
 
         dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
-            date_button = tk.Button(left_section_frame, text=date, command=lambda: main_program(username, date), 
-            font=font_small, cursor=button_cursor)
-            date_button.pack(padx=10, pady=2)
+                date_button = tk.Button(left_section_frame, text=date, command=lambda: main_program(username, date), 
+                font=font_small, cursor=button_cursor)
+                date_button.pack(padx=10, pady=2)
 
         add_date_folder_button = tk.Button(left_section_frame, text="+", command=lambda username=username: create_folder(username),
         font=font_small)
@@ -141,15 +141,50 @@ def display_users_folder():
         def main_program(username, date):
             file_name = os.path.join(user_folder_path, username, date, f"{date}.txt")
 
+            label_frame = tk.Frame(content_section_frame)
+            label_frame.pack(side="left")
+            entry_frame = tk.Frame(content_section_frame)
+            entry_frame.pack(side='left')
 
-
-            comment_label = tk.Label(content_section_frame, text="Otworzono folder: ",
+            line_number_label = tk.Label(label_frame, text='Numer Linii',
             font=font_small)
-            comment_label.pack()
-
-            add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name, 'Coś tam Coś tam'),
+            line_number_label.pack(padx=10, pady=3)
+            article_label = tk.Label(label_frame, text='Nazwa artykułu',
             font=font_small)
-            add_file_button.pack()
+            article_label.pack(padx=10, pady=3)
+            number_article_label = tk.Label(label_frame, text='Numer artykułu',
+            font=font_small)
+            number_article_label.pack(padx=10, pady=3)
+            number_on_palette_label = tk.Label(label_frame, text='Ilość sztuk na palecie',
+            font=font_small)
+            number_on_palette_label.pack(padx=10, pady=3)
+            standard_work_label = tk.Label(label_frame, text='Norma',
+            font=font_small)
+            standard_work_label.pack(padx=10, pady=3)
+
+            
+            line_number_entry = tk.Entry(entry_frame)
+            line_number_entry.pack(padx=10, pady=3)
+            article_entry = tk.Entry(entry_frame)
+            article_entry.pack(padx=10, pady=3)
+            number_article_entry = tk.Entry(entry_frame)
+            number_article_entry.pack(padx=10, pady=3)
+            number_on_palette_entry = tk.Entry(entry_frame)
+            number_on_palette_entry.pack(padx=10, pady=3)
+            standard_work_entry = tk.Entry(entry_frame)
+            standard_work_entry.pack(padx=10, pady=3)
+
+            content = (f"Numer linii: {line_number_entry.get} \n" + f"Nazwa artykułu: {article_entry.get} \n" "Numer artykułu: {number_article_entry} \n" "Ilość sztuk na palecie: " + str(number_on_palette_entry) + "\n" + "Norma" + str(standard_work_entry))
+            add_file_button = tk.Button(content_section_frame, text="Dodaj", command=lambda: create_file(file_name, content))
+            add_file_button.pack(padx=10, pady=3)
+            
+
+
+        
+
+            # add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name, 'Coś tam Coś tam'),
+            # font=font_small)
+            # add_file_button.pack()
 
            
            
