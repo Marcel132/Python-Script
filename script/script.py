@@ -1,34 +1,7 @@
+from module import *
 import tkinter as tk
 import os
 from datetime import datetime
-
-# Styles
-# main styles
-font_main = ('Arial', 16)
-font_small = ('Arial', 13)
-main_frame_background = "#f2f2f2"
-button_background = ""
-button_cursor = "hand2"
-
-# All necessary paths 
-user_folder_path = 'users'
-
-
-# This function can clear all content on screen
-def clear_screen():
-    for widget in main_frame.winfo_children():
-        widget.destroy()
-
-# This function can return user to main screen 
-def return_to_main_site():
-    clear_screen()
-    main_screen()
-
-# Change value to percentage
-def change_pixels_to_percents(number):
-    percents = number * 100
-    return percents
-
 
 
 # This function create users accounts
@@ -95,18 +68,7 @@ def display_users_folder():
     # Show accounts folder
     def display_user_data(username):
         clear_screen()
-    
-        top_section_frame = tk.Frame(main_frame,
-        borderwidth=2, relief="ridge")
-        top_section_frame.pack()
 
-        left_section_frame = tk.Frame(main_frame,
-        borderwidth=2, relief="ridge")
-        left_section_frame.pack(side="left", anchor="nw")
-
-        content_section_frame = tk.Frame(main_frame,
-        borderwidth=2, relief="ridge")
-        content_section_frame.pack()
 
         user_label = tk.Label(top_section_frame, text=f"Profil użytkownika: {username}", 
         font=font_small)
@@ -140,11 +102,6 @@ def display_users_folder():
         # Show account data
         def main_program(username, date):
             file_name = os.path.join(user_folder_path, username, date, f"{date}.txt")
-
-            label_frame = tk.Frame(content_section_frame)
-            label_frame.pack(side="left")
-            entry_frame = tk.Frame(content_section_frame)
-            entry_frame.pack(side='left')
 
             line_number_label = tk.Label(label_frame, text='Numer Linii',
             font=font_small)
@@ -208,10 +165,6 @@ root.title("Norma pracy")
 
 # Set default screen size
 root.geometry(f"{change_pixels_to_percents(100)}x{change_pixels_to_percents(100)}")
-
-main_frame = tk.Frame(root, bg=main_frame_background)
-main_frame.pack(fill="both", expand=True)
-
 
 main_screen()
 root.mainloop()
