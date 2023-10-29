@@ -149,47 +149,45 @@ def display_users_folder():
             line_number_label = tk.Label(label_frame, text='Numer Linii',
             font=font_small)
             line_number_label.pack(padx=10, pady=3)
+            line_number_entry = tk.Entry(entry_frame)
+            line_number_entry.pack(padx=10, pady=3)
+            
+
             article_label = tk.Label(label_frame, text='Nazwa artykułu',
             font=font_small)
             article_label.pack(padx=10, pady=3)
+            article_entry = tk.Entry(entry_frame)
+            article_entry.pack(padx=10, pady=3)
+
             number_article_label = tk.Label(label_frame, text='Numer artykułu',
             font=font_small)
             number_article_label.pack(padx=10, pady=3)
+            number_article_entry = tk.Entry(entry_frame)
+            number_article_entry.pack(padx=10, pady=3)
+
             number_on_palette_label = tk.Label(label_frame, text='Ilość sztuk na palecie',
             font=font_small)
             number_on_palette_label.pack(padx=10, pady=3)
+            number_on_palette_entry = tk.Entry(entry_frame)
+            number_on_palette_entry.pack(padx=10, pady=3)
+            
             standard_work_label = tk.Label(label_frame, text='Norma',
             font=font_small)
             standard_work_label.pack(padx=10, pady=3)
-
-            
-            line_number_entry = tk.Entry(entry_frame)
-            line_number_entry.pack(padx=10, pady=3)
-            article_entry = tk.Entry(entry_frame)
-            article_entry.pack(padx=10, pady=3)
-            number_article_entry = tk.Entry(entry_frame)
-            number_article_entry.pack(padx=10, pady=3)
-            number_on_palette_entry = tk.Entry(entry_frame)
-            number_on_palette_entry.pack(padx=10, pady=3)
             standard_work_entry = tk.Entry(entry_frame)
             standard_work_entry.pack(padx=10, pady=3)
-
-            content = (f"Numer linii: {line_number_entry.get} \n" + f"Nazwa artykułu: {article_entry.get} \n" "Numer artykułu: {number_article_entry} \n" "Ilość sztuk na palecie: " + str(number_on_palette_entry) + "\n" + "Norma" + str(standard_work_entry))
-            add_file_button = tk.Button(content_section_frame, text="Dodaj", command=lambda: create_file(file_name, content))
-            add_file_button.pack(padx=10, pady=3)
             
-
-
-        
-
-            # add_file_button = tk.Button(content_section_frame, text="Dodaj plik", command=lambda: create_file(file_name, 'Coś tam Coś tam'),
-            # font=font_small)
-            # add_file_button.pack()
-
+            add_file_button = tk.Button(content_section_frame, text="Dodaj", command=lambda: create_file(file_name))
+            add_file_button.pack(padx=10, pady=3)    
            
-           
-           
-            def create_file(file_name, content):
+            def create_file(file_name):
+                content = (
+                    f"Numer linii: {line_number_entry.get()} \n" + 
+                    f"Nazwa artykułu: {article_entry.get()} \n" +
+                    f"Numer artykułu: {number_article_entry.get()} \n" +
+                    f"Ilość sztuk na palecie: {number_on_palette_entry.get()} \n" + 
+                    f"Norma: {standard_work_entry.get()}"
+                    )
                 with open(file_name, 'w', encoding='utf-8') as file:
                     file.write(content)
         
