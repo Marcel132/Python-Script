@@ -17,6 +17,10 @@ def clear_screen():
   for widget in main_frame.winfo_children():
     widget.destroy()
 
+def clear_frame(frame):
+    for widget in frame.winfo_children():
+        widget.destroy()
+
 # This function can return user to main screen 
 def return_to_main_site():
   clear_screen()
@@ -105,6 +109,10 @@ def display_users_folder():
         borderwidth=2, relief="ridge")
         content_section_frame.pack()
 
+        label_frame = tk.Frame(content_section_frame)
+        label_frame.pack(side="left")
+
+
         user_label = tk.Label(top_section_frame, text=f"Profil użytkownika: {username}", 
         font=font_small)
         user_label.pack(side="left", padx=(2, 300), pady=2)
@@ -115,9 +123,10 @@ def display_users_folder():
 
         dates = os.listdir(os.path.join(user_folder_path, username))
         for date in dates:
-                date_button = tk.Button(left_section_frame, text=date, command=lambda: main_program(username, date), 
-                font=font_small, cursor=button_cursor)
-                date_button.pack(padx=10, pady=2)
+            date_button = tk.Button(left_section_frame, text=date, command=lambda frame=label_frame: (clear_frame(frame), main_program(username, date)), 
+            font=font_small, cursor=button_cursor)
+            date_button.pack(padx=10, pady=2)
+            
 
         add_date_folder_button = tk.Button(left_section_frame, text="+", command=lambda username=username: create_folder(username),
         font=font_small)
@@ -136,47 +145,41 @@ def display_users_folder():
 
         # Show account data
         def main_program(username, date):
+            
             file_name = os.path.join(user_folder_path, username, date, f"{date}.txt")
-
-            label_frame = tk.Frame(content_section_frame)
-            label_frame.pack(side="left")
-
-            entry_frame = tk.Frame(content_section_frame)
-            entry_frame.pack(side='left')
-
 
             line_number_label = tk.Label(label_frame, text='Numer Linii',
             font=font_small)
             line_number_label.pack(padx=10, pady=3)
-            line_number_entry = tk.Entry(entry_frame)
+            line_number_entry = tk.Entry(label_frame)
             line_number_entry.pack(padx=10, pady=3)
             
 
             article_label = tk.Label(label_frame, text='Nazwa artykułu',
             font=font_small)
             article_label.pack(padx=10, pady=3)
-            article_entry = tk.Entry(entry_frame)
+            article_entry = tk.Entry(label_frame)
             article_entry.pack(padx=10, pady=3)
 
             number_article_label = tk.Label(label_frame, text='Numer artykułu',
             font=font_small)
             number_article_label.pack(padx=10, pady=3)
-            number_article_entry = tk.Entry(entry_frame)
+            number_article_entry = tk.Entry(label_frame)
             number_article_entry.pack(padx=10, pady=3)
 
             number_on_palette_label = tk.Label(label_frame, text='Ilość sztuk na palecie',
             font=font_small)
             number_on_palette_label.pack(padx=10, pady=3)
-            number_on_palette_entry = tk.Entry(entry_frame)
+            number_on_palette_entry = tk.Entry(label_frame)
             number_on_palette_entry.pack(padx=10, pady=3)
             
             standard_work_label = tk.Label(label_frame, text='Norma',
             font=font_small)
             standard_work_label.pack(padx=10, pady=3)
-            standard_work_entry = tk.Entry(entry_frame)
+            standard_work_entry = tk.Entry(label_frame)
             standard_work_entry.pack(padx=10, pady=3)
             
-            add_file_button = tk.Button(content_section_frame, text="Dodaj", command=lambda: create_file(file_name))
+            add_file_button = tk.Button(label_frame, text="Dodaj", command=lambda: create_file(file_name))
             add_file_button.pack(padx=10, pady=3)    
            
             def create_file(file_name):
@@ -189,6 +192,8 @@ def display_users_folder():
                     )
                 with open(file_name, 'w', encoding='utf-8') as file:
                     file.write(content)
+
+
 # Main screen
 def main_screen():
     display_users_folder()
