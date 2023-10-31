@@ -192,6 +192,11 @@ def display_users_folder():
                     )
                 with open(file_name, 'w', encoding='utf-8') as file:
                     file.write(content)
+                with open(file_name, 'r', encoding='utf-8') as file:
+                    file_content = file.read()
+                    comment_label = tk.Label(label_frame, text=file_content,
+                    font=font_small)
+                    comment_label.pack()
 
 
 # Main screen

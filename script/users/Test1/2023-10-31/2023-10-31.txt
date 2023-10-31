@@ -1,5 +1,5 @@
-Numer linii: 3 
-Nazwa artykułu: 3 
-Numer artykułu: 3 
-Ilość sztuk na palecie: 3 
-Norma: 3
+Numer linii: 101 
+Nazwa artykułu: 10 
+Numer artykułu: 10 
+Ilość sztuk na palecie: 10 
+Norma: 10
