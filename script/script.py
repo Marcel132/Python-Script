@@ -112,6 +112,9 @@ def display_users_folder():
         label_frame = tk.Frame(content_section_frame)
         label_frame.pack(side="left")
 
+        comment_frame = tk.Frame(content_section_frame)
+        comment_frame.pack(side="left", )
+
 
         user_label = tk.Label(top_section_frame, text=f"Profil użytkownika: {username}", 
         font=font_small)
@@ -125,8 +128,7 @@ def display_users_folder():
         for date in dates:
             date_button = tk.Button(left_section_frame, text=date, command=lambda frame=label_frame: (clear_frame(frame), main_program(username, date)), 
             font=font_small, cursor=button_cursor)
-            date_button.pack(padx=10, pady=2)
-            
+            date_button.pack(padx=10, pady=2)     
 
         add_date_folder_button = tk.Button(left_section_frame, text="+", command=lambda username=username: create_folder(username),
         font=font_small)
@@ -145,7 +147,6 @@ def display_users_folder():
 
         # Show account data
         def main_program(username, date):
-            
             file_name = os.path.join(user_folder_path, username, date, f"{date}.txt")
 
             line_number_label = tk.Label(label_frame, text='Numer Linii',
@@ -179,7 +180,7 @@ def display_users_folder():
             standard_work_entry = tk.Entry(label_frame)
             standard_work_entry.pack(padx=10, pady=3)
             
-            add_file_button = tk.Button(label_frame, text="Dodaj", command=lambda: create_file(file_name))
+            add_file_button = tk.Button(label_frame, text="Dodaj", command=lambda: create_file(file_name)) 
             add_file_button.pack(padx=10, pady=3)    
            
             def create_file(file_name):
@@ -193,9 +194,10 @@ def display_users_folder():
                 with open(file_name, 'w', encoding='utf-8') as file:
                     file.write(content)
                 with open(file_name, 'r', encoding='utf-8') as file:
+                    clear_frame(comment_frame)
                     file_content = file.read()
-                    comment_label = tk.Label(label_frame, text=file_content,
-                    font=font_small)
+                    comment_label = tk.Label(comment_frame, text=file_content,
+                    font=font_small, anchor="w", justify="left")
                     comment_label.pack()
 
 

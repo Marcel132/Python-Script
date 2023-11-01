@@ -1,5 +1,0 @@
-Numer linii: 101 
-Nazwa artykułu: 10 
-Numer artykułu: 10 
-Ilość sztuk na palecie: 10 
-Norma: 10
