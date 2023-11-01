@@ -1,0 +1,8 @@
+Numer linii:  
+Nazwa artykułu:  
+Numer artykułu:  
+Ilość sztuk na palecie:  
+Norma:  
+
+Na linii numer: , która zajmuje się artykułem:  o numerze:  ma 
+normę .

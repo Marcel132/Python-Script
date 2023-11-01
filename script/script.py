@@ -179,7 +179,7 @@ def display_users_folder():
             standard_work_label.pack(padx=10, pady=3)
             standard_work_entry = tk.Entry(label_frame)
             standard_work_entry.pack(padx=10, pady=3)
-            
+
             add_file_button = tk.Button(label_frame, text="Dodaj", command=lambda: create_file(file_name)) 
             add_file_button.pack(padx=10, pady=3)    
            
@@ -189,7 +189,9 @@ def display_users_folder():
                     f"Nazwa artykułu: {article_entry.get()} \n" +
                     f"Numer artykułu: {number_article_entry.get()} \n" +
                     f"Ilość sztuk na palecie: {number_on_palette_entry.get()} \n" + 
-                    f"Norma: {standard_work_entry.get()}"
+                    f"Norma: {standard_work_entry.get()} \n" +
+                    f"\n" + 
+                    f"Na linii numer: {line_number_entry.get()}, która zajmuje się artykułem: {article_entry.get()} o numerze: {number_article_entry.get()} ma \nnormę {standard_work_entry.get()}."
                     )
                 with open(file_name, 'w', encoding='utf-8') as file:
                     file.write(content)
